@@ -6,3 +6,12 @@ spring:
       enable-auto-commit: false
       auto-offset-reset: earliest
       isolation-level: read_committed
+
+kafka:
+  avro:
+    consumer:
+      schema-registry-url: "http://127.0.0.1:8081"
+      specific-reader: true
+
+demo:
+  topic-name: "topicName"
