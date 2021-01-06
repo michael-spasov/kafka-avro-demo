@@ -1,0 +1,15 @@
+{
+  "type": "record",
+  "namespace": "gov.dwp.citizen.address",
+  "name": "Address",
+  "doc": "DWP thin event format 1_0",
+  "version": "1",
+  "fields": [
+    {"name": "subjectIdentifier", "type": "string", "default": "NONE"},
+    {"name": "payloadURI", "type": "string"},
+    {"name": "correlationID", "type": "string", "default": "NONE"},
+    {"name": "eventID", "type": "string", "default": "NONE"},
+    {"name": "eventDateTime", "type":"long", "logicalType": "timestamp-millis"},
+    {"name": "publishedDateTime", "type":"long", "logicalType": "timestamp-millis"}
+  ]
+}
