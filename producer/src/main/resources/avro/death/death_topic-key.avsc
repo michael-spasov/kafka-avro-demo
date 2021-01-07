@@ -1,0 +1,10 @@
+{
+  "type": "record",
+  "namespace": "gov.dwp.citizen.death",
+  "name": "DeathKey",
+  "doc": "DWP thin event format 1_0",
+  "version": "1",
+  "fields": [
+    {"name": "key", "type": "string"}
+  ]
+}

@@ -1,7 +1,7 @@
 package com.soahouse.demo.kafka.config;
 
-import gov.dwp.citizen.address.Address;
-import gov.dwp.citizen.address.AddressKey;
+
+import org.apache.avro.generic.GenericRecord;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.springframework.beans.factory.annotation.Value;
@@ -53,12 +53,12 @@ public class KafkaConfig {
         }
 
         @Bean
-        public ProducerFactory<AddressKey, Address> producerFactory() {
+        public ProducerFactory<GenericRecord, GenericRecord> producerFactory() {
                 return new DefaultKafkaProducerFactory<>(producerConfigs());
         }
 
         @Bean
-        public KafkaTemplate<AddressKey, Address> kafkaTemplate() {
+        public KafkaTemplate<GenericRecord, GenericRecord> kafkaTemplate() {
                 return new KafkaTemplate<>(producerFactory());
         }
 

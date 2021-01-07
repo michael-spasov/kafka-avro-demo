@@ -2,6 +2,9 @@ package com.soahouse.demo.kafka.services;
 
 import gov.dwp.citizen.address.Address;
 import gov.dwp.citizen.address.AddressKey;
+import gov.dwp.citizen.death.DeathDateUpdated;
+import gov.dwp.citizen.death.DeathKey;
+import org.apache.avro.generic.GenericRecord;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
@@ -13,13 +16,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Service
 public class ProducerService {
 
-        final KafkaTemplate<AddressKey, Address> template;
+        final KafkaTemplate<GenericRecord, GenericRecord> template;
 
         @Value("${demo.topic-name:topicName}")
         private String topicName;
 
         public ProducerService(
-                KafkaTemplate<AddressKey, Address> template) {
+                KafkaTemplate<GenericRecord, GenericRecord> template) {
                 this.template = template;
         }
 
@@ -33,13 +36,29 @@ public class ProducerService {
                         .setPublishedDateTime(2L)
                         .build();
 
+                sendDataInTransaction(key, address);
+
+                DeathDateUpdated deathDateUpdated = DeathDateUpdated.newBuilder()
+                        .setEventDateTime(1L)
+                        .setPublishedDateTime(2L)
+                        .setCorrelationID("12")
+                        .setPayloadURI("localhost")
+                        .setSubjectIdentifier("subject")
+                        .build();
+                DeathKey dKey = DeathKey.newBuilder()
+                        .setKey("12")
+                        .build();
+
+                sendDataInTransaction(dKey, deathDateUpdated);
+        }
+
+        private void sendDataInTransaction(GenericRecord key, GenericRecord address) {
                 template.executeInTransaction(kafkaOperations -> {
-                        ListenableFuture<SendResult<AddressKey, Address>> f = kafkaOperations.send(topicName, key, address);
+                        ListenableFuture<SendResult<GenericRecord, GenericRecord>> f = kafkaOperations.send(topicName, key, address);
                         AtomicBoolean result = new AtomicBoolean(false);
                         f.addCallback(s -> result.set(true), fc -> result.set(false));
 
                         return result.get();
                 });
-
         }
 }
