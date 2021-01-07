@@ -40,6 +40,12 @@ public class KafkaConfig {
 
                 props.put("schema.registry.url", kafkaProducerProperties.getSchemaRegistryUrl());
 
+                props.put("key.subject.name.strategy", kafkaProducerProperties.getKeySubjectNameStrategy());
+                props.put("value.subject.name.strategy", kafkaProducerProperties.getValueSubjectNameStrategy());
+
+                props.put("auto.register.schemas", kafkaProducerProperties.getAutoRegisterSchemas());
+                props.put("use.latest.version", kafkaProducerProperties.getUseLatestVersion());
+
                 props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);
                 props.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, "test-transactional-id");
 

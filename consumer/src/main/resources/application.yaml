@@ -12,6 +12,8 @@ kafka:
     consumer:
       schema-registry-url: "http://127.0.0.1:8081"
       specific-reader: true
+      key-subject-name-strategy: io.confluent.kafka.serializers.subject.TopicNameStrategy
+      value-subject-name-strategy: io.confluent.kafka.serializers.subject.TopicNameStrategy
 
 demo:
   topic-name: "topicName"

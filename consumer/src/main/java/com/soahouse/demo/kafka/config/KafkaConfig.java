@@ -42,6 +42,9 @@ public class KafkaConfig {
                 props.put("schema.registry.url", kafkaConsumerProperties.getSchemaRegistryUrl());
                 props.put("specific.avro.reader", kafkaConsumerProperties.getSpecificReader());
 
+                props.put("key.subject.name.strategy", kafkaConsumerProperties.getKeySubjectNameStrategy());
+                props.put("value.subject.name.strategy", kafkaConsumerProperties.getValueSubjectNameStrategy());
+
                 props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
                 props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
                 props.put(ErrorHandlingDeserializer.KEY_DESERIALIZER_CLASS, io.confluent.kafka.serializers.KafkaAvroDeserializer.class);
