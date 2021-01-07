@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.*;
+import org.springframework.kafka.listener.KafkaListenerErrorHandler;
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 
 import java.util.HashMap;
@@ -65,5 +66,10 @@ public class KafkaConfig {
                 factory.setConsumerFactory(consumerFactory());
                 factory.setErrorHandler(new KafkaErrorHandler());
                 return factory;
+        }
+
+        @Bean
+        public KafkaListenerErrorHandler kafkaListenerErrorHandler() {
+                return new KafkaListenerErrorHandlerImpl();
         }
 }
