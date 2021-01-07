@@ -2,6 +2,7 @@ package com.soahouse.demo.kafka.config;
 
 import gov.dwp.citizen.address.Address;
 import gov.dwp.citizen.address.AddressKey;
+import org.apache.avro.generic.GenericRecord;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.springframework.beans.factory.annotation.Value;
@@ -54,13 +55,13 @@ public class KafkaConfig {
         }
 
         @Bean
-        public ConsumerFactory<AddressKey, Address> consumerFactory() {
+        public ConsumerFactory<GenericRecord, GenericRecord> consumerFactory() {
                 return new DefaultKafkaConsumerFactory<>(consumerConfigs());
         }
 
         @Bean
-        public ConcurrentKafkaListenerContainerFactory<AddressKey, Address> kafkaListenerContainerFactory() {
-                ConcurrentKafkaListenerContainerFactory<AddressKey, Address> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        public ConcurrentKafkaListenerContainerFactory<GenericRecord, GenericRecord> kafkaListenerContainerFactory() {
+                ConcurrentKafkaListenerContainerFactory<GenericRecord, GenericRecord> factory = new ConcurrentKafkaListenerContainerFactory<>();
                 factory.setConsumerFactory(consumerFactory());
                 factory.setErrorHandler(new KafkaErrorHandler());
                 return factory;

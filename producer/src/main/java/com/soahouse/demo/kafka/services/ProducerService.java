@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
+import org.springframework.util.concurrent.FailureCallback;
 import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.util.concurrent.SuccessCallback;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -56,7 +58,16 @@ public class ProducerService {
                 template.executeInTransaction(kafkaOperations -> {
                         ListenableFuture<SendResult<GenericRecord, GenericRecord>> f = kafkaOperations.send(topicName, key, address);
                         AtomicBoolean result = new AtomicBoolean(false);
-                        f.addCallback(s -> result.set(true), fc -> result.set(false));
+                        f.addCallback(new SuccessCallback<SendResult<GenericRecord, GenericRecord>>() {
+                                @Override public void onSuccess(SendResult<GenericRecord, GenericRecord> s) {
+                                        result.set(true);
+                                }
+                        }, new FailureCallback() {
+                                @Override public void onFailure(Throwable fc) {
+
+                                        result.set(false);
+                                }
+                        });
 
                         return result.get();
                 });

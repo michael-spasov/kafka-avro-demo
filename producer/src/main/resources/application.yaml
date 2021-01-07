@@ -11,7 +11,7 @@ kafka:
   avro:
     producer:
       schema-registry-url: "http://127.0.0.1:8081"
-      key-subject-name-strategy: io.confluent.kafka.serializers.subject.TopicNameStrategy
-      value-subject-name-strategy: io.confluent.kafka.serializers.subject.TopicNameStrategy
+      key-subject-name-strategy: io.confluent.kafka.serializers.subject.RecordNameStrategy
+      value-subject-name-strategy: io.confluent.kafka.serializers.subject.RecordNameStrategy
       auto-register-schemas: false
       use-latest-version: true

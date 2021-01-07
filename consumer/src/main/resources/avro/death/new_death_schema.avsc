@@ -1,7 +1,7 @@
 {
   "type": "record",
   "namespace": "gov.dwp.citizen.death",
-  "name": "DateUpdated",
+  "name": "DeathDateUpdated",
   "doc": "DWP thin event format 1_0",
   "version": "1",
   "fields": [
